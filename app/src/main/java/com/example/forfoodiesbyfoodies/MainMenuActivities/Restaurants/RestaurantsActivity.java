@@ -31,6 +31,8 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class RestaurantsActivity extends AppCompatActivity implements
@@ -105,6 +107,7 @@ public class RestaurantsActivity extends AppCompatActivity implements
                 }
                 
                 // setup the adapter
+                Collections.sort(restaurantsList, (lhs, rhs) -> lhs.getName().compareTo(rhs.getName()));
                 mRecyclerView.setAdapter(new RestaurantsRecyclerAdapter(restaurantsList, RestaurantsActivity.this));
             }
     

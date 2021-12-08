@@ -3,6 +3,7 @@ package com.example.forfoodiesbyfoodies.MainMenuActivities.Restaurants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,7 +53,7 @@ public class RestaurantsRecyclerAdapter extends RecyclerView.Adapter<Restaurants
 
         TextView RestaurantName, RestaurantDescription, RestaurantStreet;
         ImageView RestaurantImage;
-        ConstraintLayout rootLayout;
+        LinearLayout rootLayout;
 		
 		public ViewHolder(@NonNull View itemView) {
 			super(itemView);

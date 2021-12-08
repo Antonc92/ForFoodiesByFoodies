@@ -43,71 +43,81 @@ public class MyProfileActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("users");
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
-
-
-
-
-
-
-
-
-
+    
+        databaseReference.child(userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    if (dataSnapshot != null) {
+                        User userModel = dataSnapshot.getValue(User.class);
+                        binding.FirstNameEditMy.setText(userModel.first);
+                        binding.LastNameEditMy.setText(userModel.last);
+                        binding.UserNameEditMy.setText(userModel.username);
+                        binding.EmailUserMy.setText(userModel.email);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+        
         binding.UpdateProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaseReference.child(userID).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists()){
-
-                            String firstName = binding.FirstNameEditMy.getText().toString();
-                            String lastName = binding.LastNameEditMy.getText().toString();
-                            String userName = binding.UserNameEditMy.getText().toString();
-                            String eMail = binding.EmailUserMy.getText().toString();
-                            String newPassword = binding.PasswordUserMy.getText().toString();
-
-
-
-
-
-                            //Updates user's email in Firebase Auth
-                            FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
-
-                            user1.updateEmail(eMail)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-
-                                                //Updates user's password in Firebase Auth
-                                                user1.updatePassword(newPassword)
-                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                if (task.isSuccessful()) {
-                                                                    Toast.makeText(MyProfileActivity.this, "Update successful.", Toast.LENGTH_SHORT).show();
+                if (binding.PasswordUserMy.getText().toString().isEmpty()) binding.PasswordUserMy.setError("Please set Password");
+                else if (binding.FirstNameEditMy.getText().toString().isEmpty()) binding.FirstNameEditMy.setError("Please set first name");
+                else if (binding.LastNameEditMy.getText().toString().isEmpty()) binding.LastNameEditMy.setError("Please set last name");
+                else if (binding.UserNameEditMy.getText().toString().isEmpty()) binding.UserNameEditMy.setError("Please set username");
+                else if (binding.EmailUserMy.getText().toString().isEmpty()) binding.EmailUserMy.setError("Please set email");
+                else {
+                    databaseReference.child(userID).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                
+                                String firstName = binding.FirstNameEditMy.getText().toString();
+                                String lastName = binding.LastNameEditMy.getText().toString();
+                                String userName = binding.UserNameEditMy.getText().toString();
+                                String eMail = binding.EmailUserMy.getText().toString();
+                                String newPassword = binding.PasswordUserMy.getText().toString();
+                
+                
+                                //Updates user's email in Firebase Auth
+                                FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+                
+                                user1.updateEmail(eMail)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                    
+                                                    //Updates user's password in Firebase Auth
+                                                    user1.updatePassword(newPassword)
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        Toast.makeText(MyProfileActivity.this, "Update successful.", Toast.LENGTH_SHORT).show();
+                                                                    }
                                                                 }
-                                                            }
-                                                        });
-                                                
+                                                            });
+                                    
+                                                }
                                             }
-                                        }
-                                    });
-
-
-
-
-
-
-
-                            //Update in Realtime Database method
-                            updateData(firstName, lastName, userName, eMail);
+                                        });
+                
+                
+                                //Update in Realtime Database method
+                                updateData(firstName, lastName, userName, eMail);
+                            }
                         }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
+        
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
+                }
             }
         });
 
