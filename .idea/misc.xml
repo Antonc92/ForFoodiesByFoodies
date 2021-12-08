@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_add_restaurant.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_add_street_food.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_all_users_profiles.xml" value="0.21981981981981982" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_forgot_password.xml" value="0.20854700854700856" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_forum.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_intro.xml" value="0.264" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_my_profile.xml" value="0.21981981981981982" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_register.xml" value="0.264" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_register_critic.xml" value="0.264" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_restaurants.xml" value="0.264" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_street_food.xml" value="0.2" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_test.xml" value="0.197008547008547" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/activity_view_profile.xml" value="0.176" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/item_users.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/list_item_restaurants.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/layout/list_item_users.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/anton/AndroidStudioProjects/ForFoodiesByFoodies/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1265765765765766" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
