@@ -2,6 +2,8 @@ package com.example.forfoodiesbyfoodies.MainMenuActivities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,6 +52,10 @@ public class StreetfoodActivity extends AppCompatActivity implements
         mRecyclerView = findViewById(R.id.recyclerViewStreetfood);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        DividerItemDecoration itemDecorator = new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL);
+        itemDecorator.setDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.line_separator));
+        mRecyclerView.addItemDecoration(itemDecorator);
     
         mDatabase = FirebaseDatabase.getInstance().getReference().child("streetfood");
         

@@ -3,6 +3,8 @@ package com.example.forfoodiesbyfoodies.MainMenuActivities.Restaurants;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +37,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static java.security.AccessController.getContext;
+
 public class RestaurantsActivity extends AppCompatActivity implements
         RestaurantsRecyclerAdapter.ItemClickListener{
     
@@ -60,6 +64,10 @@ public class RestaurantsActivity extends AppCompatActivity implements
         mRecyclerView = findViewById(R.id.recyclerViewRestaurants);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        DividerItemDecoration itemDecorator = new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL);
+        itemDecorator.setDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.line_separator));
+        mRecyclerView.addItemDecoration(itemDecorator);
     
         mDatabase = FirebaseDatabase.getInstance().getReference().child("restaurants");
          
@@ -70,33 +78,33 @@ public class RestaurantsActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), AddRestaurantActivity.class));
-                finish();
             }
         });
 
 
-//        FirebaseUser user = mAuth.getCurrentUser();
-//        userID = user.getUid();
-//        reference = FirebaseDatabase.getInstance().getReference().child("admins").child(userID).child("access");
-//        //Get the string value of access from DB and if = to 3(admins) make admin button visible
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()) {
-//                    String access = dataSnapshot.getValue().toString();
-//                    Integer x = Integer.valueOf(access);
-//                    if (x == 3) {
-//                        AddButon.setVisibility(View.VISIBLE);
-//                    } else {
-//                        AddButon.setVisibility(View.GONE);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//            }
-//        });
+
+        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        //Get the string value of access from DB and if = to 3(admins) make admin button visible
+        FirebaseDatabase.getInstance().getReference().child("admins").child(userID)
+                .child("access")
+                .addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String access = dataSnapshot.getValue().toString();
+                    Integer x = Integer.valueOf(access);
+                    if (x == 3) {
+                        AddButon.setVisibility(View.VISIBLE);
+                    } else {
+                        AddButon.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
