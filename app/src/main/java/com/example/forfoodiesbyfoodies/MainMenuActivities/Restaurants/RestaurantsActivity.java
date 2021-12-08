@@ -12,6 +12,7 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.forfoodiesbyfoodies.R;
 import com.example.forfoodiesbyfoodies.MainMenuActivities.Restaurants.AddRestaurantActivity;
@@ -27,17 +28,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class RestaurantsActivity extends AppCompatActivity {
-
-    FirebaseDatabase db;
-    DatabaseReference reference;
+public class RestaurantsActivity extends AppCompatActivity implements
+        RestaurantsRecyclerAdapter.ItemClickListener{
+    
+    private DatabaseReference mDatabase;
     FirebaseAuth mAuth;
     String userID;
     Button AddButon;
     DatabaseReference referenceRes;
+    private ArrayList<Restaurants> restaurantsList;
 
 
     private RecyclerView mRecyclerView;
@@ -50,16 +54,14 @@ public class RestaurantsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_restaurants);
 
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Restaurants");
-
-
+        restaurantsList = new ArrayList<>();
         mRecyclerView = findViewById(R.id.recyclerViewRestaurants);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        db = FirebaseDatabase.getInstance();
-         referenceRes = db.getReference().child("restaurants");
+    
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("restaurants");
+         
+         AddButon = findViewById(R.id.AddRestaurantsButtonMain);
 
 
         AddButon.setOnClickListener(new View.OnClickListener() {
@@ -71,29 +73,46 @@ public class RestaurantsActivity extends AppCompatActivity {
         });
 
 
-        FirebaseUser user = mAuth.getCurrentUser();
-        userID = user.getUid();
-        reference = FirebaseDatabase.getInstance().getReference().child("admins").child(userID).child("access");
-        //Get the string value of access from DB and if = to 3(admins) make admin button visible
-        reference.addValueEventListener(new ValueEventListener() {
+//        FirebaseUser user = mAuth.getCurrentUser();
+//        userID = user.getUid();
+//        reference = FirebaseDatabase.getInstance().getReference().child("admins").child(userID).child("access");
+//        //Get the string value of access from DB and if = to 3(admins) make admin button visible
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()) {
+//                    String access = dataSnapshot.getValue().toString();
+//                    Integer x = Integer.valueOf(access);
+//                    if (x == 3) {
+//                        AddButon.setVisibility(View.VISIBLE);
+//                    } else {
+//                        AddButon.setVisibility(View.GONE);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//            }
+//        });
+    
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String access = dataSnapshot.getValue().toString();
-                    Integer x = Integer.valueOf(access);
-                    if (x == 3) {
-                        AddButon.setVisibility(View.VISIBLE);
-                    } else {
-                        AddButon.setVisibility(View.GONE);
-                    }
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    Restaurants restaurants = snap.getValue(Restaurants.class);
+                    restaurantsList.add(restaurants);
                 }
+                
+                // setup the adapter
+                mRecyclerView.setAdapter(new RestaurantsRecyclerAdapter(restaurantsList, RestaurantsActivity.this));
             }
-
+    
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                Toast.makeText(RestaurantsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-
 
     }
 
@@ -109,6 +128,13 @@ public class RestaurantsActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }
-
-
+    
+    
+    @Override
+    public void onClick(int position) {
+        Intent intent = new Intent(this, ResturantDetailActivity.class);
+        intent.putExtra("image", restaurantsList.get(position).photo);
+        intent.putExtra("description", restaurantsList.get(position).description);
+        startActivity(intent);
+    }
 }
